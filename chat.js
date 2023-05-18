@@ -1,16 +1,17 @@
 import { ConversationalRetrievalQAChain } from "langchain/chains"
-import { PineconeClient } from "@pinecone-database/pinecone"  //向量数据库
-import { PineconeStore } from "langchain/vectorstores/pinecone" //将本地数据存入向量库 
-import { OpenAIEmbeddings } from "langchain/embeddings/openai" //将数据转换为向量的过程
+import { PineconeClient } from "@pinecone-database/pinecone"  
+import { PineconeStore } from "langchain/vectorstores/pinecone" 
+import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { OpenAI } from "langchain/llms/openai"
 import dotenv from 'dotenv'
 dotenv.config()
 
+//initialize the OpenAI model to use to answer the question
 const model = new OpenAI({
-    temperature:0 // a => b 根据一个字符匹配下一个字符的准确度 0代表最准确的值 如果比较大就会随机找，对于创造性生成文章比较有趣
+    temperature:0
 })
 
-//创建向量数据库
+//initialize vector library
 const pineconeClient = new PineconeClient()
 await pineconeClient.init({
     apiKey: process.env.PINECONE_API_KEY,
@@ -23,17 +24,18 @@ const pineconeStore = await PineconeStore.fromExistingIndex(new OpenAIEmbeddings
     namespace:"vue3-document"
 }) 
 
-// 取向量数据库里面的数据
+//create the chain using the OpenAI model
 const chain = ConversationalRetrievalQAChain.fromLLM(model,pineconeStore.asRetriever(),{
-    returnSourceDocuments:true  //返回参考来哪些原材料
+    returnSourceDocuments:true  
 })
 
-// 提问题
+//ask question
 const res = await chain.call({
     question:"我是vue新手，给我一些学习建议",
     chat_history:[]
 })
-//第二次提问题，携带历史记录
+
+//ask question with previous response as chat history.
 const secondRes = await chain.call({
     question:"是否可以提供更多的建议",
     chat_history:["我是vue新手，给我一些学习建议",res.text]
