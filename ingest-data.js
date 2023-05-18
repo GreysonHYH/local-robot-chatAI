@@ -11,16 +11,12 @@ const unstructuredLoader = new UnstructuredLoader("./vue3-document.md")
 
 const rawDocs = await unstructuredLoader.load()
 
-console.log(rawDocs)
-
 const splitter = new RecursiveCharacterTextSplitter({
     chunkSize:1000,
     chunkOverlap:200
 })
 
 const docs = await splitter.splitDocuments(rawDocs)
-
-console.log(docs)
 
 const pineconeClient = new PineconeClient()
 await pineconeClient.init({

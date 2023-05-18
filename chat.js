@@ -33,8 +33,7 @@ const res = await chain.call({
     question:"我是vue新手，给我一些学习建议",
     chat_history:[]
 })
-console.log(res)
-
+//第二次提问题，携带历史记录
 const secondRes = await chain.call({
     question:"是否可以提供更多的建议",
     chat_history:["我是vue新手，给我一些学习建议",res.text]
