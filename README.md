@@ -12,12 +12,18 @@
 
 * 4.未来开发者乃至各行各业工作者都离不开AI，有必要了解对于如何构建一个AI助手的基本实现思路。
 
-# install dependencies
+# 使用指南
+
+安装依赖
+```js
 npm i
+```
 
-# complete your OpenAI api key and information of Pinecone
-get into .env
-change the xxx to your real information
+修改api和向量数据库信息
+*进入 .env文件
+*将XXX改为自己真实的信息
 
-# get start it
+执行代码
+```js
 node chat.js
+```
