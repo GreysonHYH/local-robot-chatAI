@@ -11,3 +11,13 @@
 * 3.提高我们查找本地资料的速度，以及让AI更懂用户，因为它还会对我们本地的数据信息进行总结。
 
 * 4.未来开发者乃至各行各业工作者都离不开AI，有必要了解对于如何构建一个AI助手的基本实现思路。
+
+# install dependencies
+npm i
+
+# complete your OpenAI api key and information of Pinecone
+get into .env
+change the xxx to your real information
+
+# get start it
+node chat.js
